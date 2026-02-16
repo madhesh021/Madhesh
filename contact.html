@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Malai</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="container flex justify-between items-center">
+            <a href="index.html" class="logo">Malai<span style="color: var(--primary-color);">.</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="categories.html" class="nav-link">Categories</a></li>
+                    <li><a href="authors.html" class="nav-link">Authors</a></li>
+                    <li><a href="archive.html" class="nav-link">Archive</a></li>
+                    <li><a href="contact.html" class="nav-link active">Contact</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="btn btn-primary btn-sm">Subscribe</a>
+        </div>
+    </header>
+
+    <main class="container" style="max-width: 800px; padding-top: var(--spacing-2xl);">
+        <div class="text-center" style="margin-bottom: var(--spacing-xl);">
+            <h1 style="margin-bottom: var(--spacing-md);">Get in Touch</h1>
+            <p>Have a story idea, feedback, or just want to say hello? We'd love to heary from you.</p>
+        </div>
+
+        <div
+            style="background-color: var(--surface-color); padding: var(--spacing-xl); border-radius: var(--radius-lg); box-shadow: var(--shadow-md); border: 1px solid var(--border-color);">
+            <form class="comment-form" style="margin-top: 0; box-shadow: none; padding: 0;">
+                <div class="grid"
+                    style="grid-template-columns: 1fr 1fr; gap: var(--spacing-md); margin-bottom: var(--spacing-md);">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Subject</label>
+                    <select class="form-control">
+                        <option>General Inquiry</option>
+                        <option>Editorial Feedback</option>
+                        <option>Advertising</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Message</label>
+                    <textarea class="form-control" style="min-height: 150px;" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+            </form>
+        </div>
+
+        <div class="grid"
+            style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--spacing-lg); margin-top: var(--spacing-2xl); text-align: center;">
+            <div>
+                <i class="fas fa-envelope"
+                    style="font-size: 2rem; color: var(--primary-color); margin-bottom: var(--spacing-md);"></i>
+                <h3>Email</h3>
+                <p>hello@malai.com</p>
+            </div>
+            <div>
+                <i class="fas fa-map-marker-alt"
+                    style="font-size: 2rem; color: var(--primary-color); margin-bottom: var(--spacing-md);"></i>
+                <h3>Office</h3>
+                <p>123 News St, Tech City, TC 90210</p>
+            </div>
+            <div>
+                <i class="fas fa-phone"
+                    style="font-size: 2rem; color: var(--primary-color); margin-bottom: var(--spacing-md);"></i>
+                <h3>Phone</h3>
+                <p>+1 (555) 123-4567</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-col">
+                <h3>Malai.</h3>
+                <p style="color: #94a3b8;">Empowering readers with knowledge and inspiration. Built for the modern web.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                    <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                    <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                    <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container"
+            style="text-align: center; margin-top: var(--spacing-xl); padding-top: var(--spacing-lg); border-top: 1px solid #334155; color: #64748b;">
+            <p>&copy; 2026 Malai News. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>

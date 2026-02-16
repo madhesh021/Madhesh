@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories - Malai</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="container flex justify-between items-center">
+            <a href="index.html" class="logo">Malai<span style="color: var(--primary-color);">.</span></a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="categories.html" class="nav-link active">Categories</a></li>
+                    <li><a href="authors.html" class="nav-link">Authors</a></li>
+                    <li><a href="archive.html" class="nav-link">Archive</a></li>
+                    <li><a href="contact.html" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="btn btn-primary btn-sm">Subscribe</a>
+        </div>
+    </header>
+
+    <main class="container" style="padding-top: var(--spacing-2xl);">
+        <div class="text-center" style="margin-bottom: var(--spacing-xl);">
+            <h1 style="margin-bottom: var(--spacing-md);">Explore Categories</h1>
+            <p>Filter articles by topic to find exactly what you're looking for.</p>
+        </div>
+
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="technology">Technology</button>
+            <button class="filter-btn" data-filter="lifestyle">Lifestyle</button>
+            <button class="filter-btn" data-filter="travel">Travel</button>
+            <button class="filter-btn" data-filter="design">Design</button>
+        </div>
+
+        <div class="grid" style="grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-xl);">
+            <!-- Content duplicates for demo purposes to show filtering -->
+
+            <article class="blog-card" data-category="technology">
+                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=800"
+                    alt="Technology" class="blog-card-image">
+                <div class="blog-card-content">
+                    <span class="blog-category">Technology</span>
+                    <h3 class="blog-title"><a href="article.html">The Future of AI in Web Development</a></h3>
+                    <p class="blog-excerpt">Artificial Intelligence is reshaping how we build the web.</p>
+                    <div class="blog-meta">
+                        <span><i class="far fa-clock"></i> 5 min read</span>
+                        <a href="article.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="blog-card" data-category="lifestyle">
+                <img src="https://images.unsplash.com/photo-1496449903678-68ddcb189a24?auto=format&fit=crop&q=80&w=800"
+                    alt="Lifestyle" class="blog-card-image">
+                <div class="blog-card-content">
+                    <span class="blog-category">Lifestyle</span>
+                    <h3 class="blog-title"><a href="article.html">Minimalism: More Than Just a Design Trend</a></h3>
+                    <p class="blog-excerpt">Discover how adopting a minimalist lifestyle can declutter your mind.</p>
+                    <div class="blog-meta">
+                        <span><i class="far fa-clock"></i> 3 min read</span>
+                        <a href="article.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="blog-card" data-category="travel">
+                <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80&w=800"
+                    alt="Travel" class="blog-card-image">
+                <div class="blog-card-content">
+                    <span class="blog-category">Travel</span>
+                    <h3 class="blog-title"><a href="article.html">Top 10 Hidden Gems in Southeast Asia</a></h3>
+                    <p class="blog-excerpt">Pack your bags and get ready to explore these untouched paradises.</p>
+                    <div class="blog-meta">
+                        <span><i class="far fa-clock"></i> 8 min read</span>
+                        <a href="article.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="blog-card" data-category="design">
+                <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&q=80&w=800"
+                    alt="Design" class="blog-card-image">
+                <div class="blog-card-content">
+                    <span class="blog-category">Design</span>
+                    <h3 class="blog-title"><a href="article.html">The Psychology of Color in UI/UX</a></h3>
+                    <p class="blog-excerpt">How color choices affect user behavior and perception.</p>
+                    <div class="blog-meta">
+                        <span><i class="far fa-clock"></i> 6 min read</span>
+                        <a href="article.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </article>
+
+            <article class="blog-card" data-category="technology">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800"
+                    alt="Tech" class="blog-card-image">
+                <div class="blog-card-content">
+                    <span class="blog-category">Technology</span>
+                    <h3 class="blog-title"><a href="article.html">Cybersecurity Best Practices for 2026</a></h3>
+                    <p class="blog-excerpt">Stay ahead with these essential security practices.</p>
+                    <div class="blog-meta">
+                        <span><i class="far fa-clock"></i> 6 min read</span>
+                        <a href="article.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </article>
+            <article class="blog-card" data-category="design">
+                <img src="https://images.unsplash.com/photo-1586717791821-3f44a5638d0f?auto=format&fit=crop&q=80&w=800"
+                    alt="Design" class="blog-card-image">
+                <div class="blog-card-content">
+                    <span class="blog-category">Design</span>
+                    <h3 class="blog-title"><a href="article.html">Typography Trends in 2026</a></h3>
+                    <p class="blog-excerpt">What's new in the world of type and web fonts.</p>
+                    <div class="blog-meta">
+                        <span><i class="far fa-clock"></i> 5 min read</span>
+                        <a href="article.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </article>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-col">
+                <h3>Malai.</h3>
+                <p style="color: #94a3b8;">Empowering readers with knowledge and inspiration. Built for the modern web.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="categories.html">Categories</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Connect</h3>
+                <ul class="footer-links">
+                    <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                    <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                    <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                    <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container"
+            style="text-align: center; margin-top: var(--spacing-xl); padding-top: var(--spacing-lg); border-top: 1px solid #334155; color: #64748b;">
+            <p>&copy; 2026 Malai News. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
