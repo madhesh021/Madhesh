@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronicle | Modern News & Blog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        h1, h2, h3, h4, h5, h6, .article-body {
+            font-family: 'Merriweather', serif;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .line-clamp-3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <a href="#" onclick="navigateTo('home')" class="flex items-center gap-2 group">
+                    <div class="bg-indigo-600 text-white p-1.5 rounded font-bold text-xl group-hover:bg-indigo-700 transition">CH</div>
+                    <span class="text-xl font-bold text-slate-900 tracking-tight">Chronicle</span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <button onclick="navigateTo('home')" class="nav-link text-slate-600 hover:text-indigo-600 font-medium transition" data-target="home">Home</button>
+                    <button onclick="navigateTo('categories')" class="nav-link text-slate-600 hover:text-indigo-600 font-medium transition" data-target="categories">Categories</button>
+                    <button onclick="navigateTo('authors')" class="nav-link text-slate-600 hover:text-indigo-600 font-medium transition" data-target="authors">Authors</button>
+                    <button onclick="navigateTo('archive')" class="nav-link text-slate-600 hover:text-indigo-600 font-medium transition" data-target="archive">Archive</button>
+                    <button onclick="navigateTo('contact')" class="nav-link text-slate-600 hover:text-indigo-600 font-medium transition" data-target="contact">Contact</button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 rounded-md hover:bg-slate-100" onclick="toggleMobileMenu()">
+                    <i data-lucide="menu" class="w-6 h-6 text-slate-600"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100">
+            <div class="px-4 py-3 space-y-3">
+                <button onclick="navigateTo('home'); toggleMobileMenu()" class="block w-full text-left font-medium text-slate-600 hover:text-indigo-600">Home</button>
+                <button onclick="navigateTo('categories'); toggleMobileMenu()" class="block w-full text-left font-medium text-slate-600 hover:text-indigo-600">Categories</button>
+                <button onclick="navigateTo('authors'); toggleMobileMenu()" class="block w-full text-left font-medium text-slate-600 hover:text-indigo-600">Authors</button>
+                <button onclick="navigateTo('archive'); toggleMobileMenu()" class="block w-full text-left font-medium text-slate-600 hover:text-indigo-600">Archive</button>
+                <button onclick="navigateTo('contact'); toggleMobileMenu()" class="block w-full text-left font-medium text-slate-600 hover:text-indigo-600">Contact</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Wrapper -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <!-- Dynamic Page Content Area -->
+            <div id="content-area" class="w-full lg:w-2/3 space-y-8">
+                <!-- Content injected via JS -->
+            </div>
+
+            <!-- Sticky Sidebar -->
+            <aside class="w-full lg:w-1/3 space-y-8">
+                <div class="sticky top-24 space-y-8">
+                    
+                    <!-- Search Widget -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                            <i data-lucide="search" class="w-4 h-4 text-indigo-500"></i> Search
+                        </h3>
+                        <div class="relative">
+                            <input type="text" placeholder="Search articles..." class="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                            <i data-lucide="search" class="absolute left-3 top-2.5 w-4 h-4 text-slate-400"></i>
+                        </div>
+                    </div>
+
+                    <!-- Popular Posts -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                            <i data-lucide="trending-up" class="w-4 h-4 text-indigo-500"></i> Trending
+                        </h3>
+                        <div class="space-y-4" id="trending-posts">
+                            <!-- Injected via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Newsletter -->
+                    <div class="bg-indigo-600 p-6 rounded-xl shadow-md text-white">
+                        <h3 class="text-lg font-bold mb-2">Subscribe</h3>
+                        <p class="text-indigo-100 text-sm mb-4">Get the latest news directly to your inbox every week.</p>
+                        <form onsubmit="event.preventDefault(); alert('Subscribed!');" class="space-y-2">
+                            <input type="email" placeholder="Your email address" required class="w-full px-4 py-2 rounded-lg text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-300">
+                            <button type="submit" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-2 rounded-lg transition">Join Now</button>
+                        </form>
+                    </div>
+
+                    <!-- Tags Cloud -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                            <i data-lucide="tag" class="w-4 h-4 text-indigo-500"></i> Popular Tags
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="#" class="px-3 py-1 bg-slate-100 hover:bg-indigo-100 text-slate-600 hover:text-indigo-600 rounded-full text-sm transition">#Technology</a>
+                            <a href="#" class="px-3 py-1 bg-slate-100 hover:bg-indigo-100 text-slate-600 hover:text-indigo-600 rounded-full text-sm transition">#Design</a>
+                            <a href="#" class="px-3 py-1 bg-slate-100 hover:bg-indigo-100 text-slate-600 hover:text-indigo-600 rounded-full text-sm transition">#Travel</a>
+                            <a href="#" class="px-3 py-1 bg-slate-100 hover:bg-indigo-100 text-slate-600 hover:text-indigo-600 rounded-full text-sm transition">#Culture</a>
+                            <a href="#" class="px-3 py-1 bg-slate-100 hover:bg-indigo-100 text-slate-600 hover:text-indigo-600 rounded-full text-sm transition">#Food</a>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-300 pt-16 pb-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4 text-white">
+                        <div class="bg-indigo-600 p-1.5 rounded font-bold text-lg">CH</div>
+                        <span class="text-xl font-bold">Chronicle</span>
+                    </div>
+                    <p class="text-sm text-slate-400 leading-relaxed">
+                        Empowering readers with thoughtful analysis, breaking news, and cultural insights from around the globe.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Explore</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><button onclick="navigateTo('categories')" class="hover:text-indigo-400 transition">Tech</button></li>
+                        <li><button onclick="navigateTo('categories')" class="hover:text-indigo-400 transition">Design</button></li>
+                        <li><button onclick="navigateTo('categories')" class="hover:text-indigo-400 transition">Culture</button></li>
+                        <li><button onclick="navigateTo('categories')" class="hover:text-indigo-400 transition">Travel</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Company</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><button onclick="navigateTo('authors')" class="hover:text-indigo-400 transition">Our Team</button></li>
+                        <li><button onclick="navigateTo('contact')" class="hover:text-indigo-400 transition">Contact Us</button></li>
+                        <li><button class="hover:text-indigo-400 transition">Careers</button></li>
+                        <li><button class="hover:text-indigo-400 transition">Privacy Policy</button></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Social</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-indigo-400 transition"><i data-lucide="twitter" class="w-5 h-5"></i></a>
+                        <a href="#" class="hover:text-indigo-400 transition"><i data-lucide="facebook" class="w-5 h-5"></i></a>
+                        <a href="#" class="hover:text-indigo-400 transition"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                        <a href="#" class="hover:text-indigo-400 transition"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-slate-500">
+                <p>&copy; 2026 Chronicle Media. All rights reserved.</p>
+                <div class="mt-4 md:mt-0 flex space-x-6">
+                    <a href="#" class="hover:text-slate-300">Terms</a>
+                    <a href="#" class="hover:text-slate-300">Privacy</a>
+                    <a href="#" class="hover:text-slate-300">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- Mock Data ---
+
+        const authors = [
+            { id: 1, name: "Sarah Jenkins", role: "Senior Editor", avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=150", bio: "Tech enthusiast and coffee lover with 10 years of journalism experience." },
+            { id: 2, name: "Marcus Thorne", role: "Travel Writer", avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150", bio: "Exploring the hidden corners of the world, one city at a time." },
+            { id: 3, name: "Elena Rodriguez", role: "Culture Critic", avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=150", bio: "Analyzing modern art, cinema, and the digital zeitgeist." }
+        ];
+
+        const posts = [
+            {
+                id: 101,
+                title: "The Future of Minimalist Web Design",
+                excerpt: "Why whitespace is becoming the most valuable asset in modern digital interfaces and how designers are adapting.",
+                content: `<p class="mb-4">In a digital landscape often cluttered with information overload, minimalist web design has emerged not just as an aesthetic choice, but as a functional necessity. The philosophy of "less is more" is guiding the next generation of user interfaces.</p>
+                          <p class="mb-4">By stripping away non-essential elements, designers can guide user attention more effectively. This doesn't mean sites should be barren; rather, every pixel must justify its existence.</p>
+                          <h3 class="text-xl font-bold mt-6 mb-3">The Power of Whitespace</h3>
+                          <p class="mb-4">Negative space is active space. It provides breathing room for content and reduces cognitive load for the user. Major tech giants are increasingly adopting stripped-back interfaces to prioritize speed and clarity.</p>`,
+                category: "Design",
+                authorId: 1,
+                date: "Oct 12, 2025",
+                image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=800",
+                readTime: "5 min"
+            },
+            {
+                id: 102,
+                title: "Hidden Gems of Kyoto: A Travel Guide",
+                excerpt: "Beyond the golden temples lies a city of quiet alleyways, artisan coffee shops, and ancient traditions.",
+                content: `<p class="mb-4">Kyoto is often defined by its famous Kinkaku-ji and Fushimi Inari shrines. However, the true soul of the city is found in its quiet residential neighborhoods.</p><p class="mb-4">Walking through the Higashiyama district at dawn offers a glimpse into a Japan that feels timeless.</p>`,
+                category: "Travel",
+                authorId: 2,
+                date: "Oct 10, 2025",
+                image: "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&q=80&w=800",
+                readTime: "8 min"
+            },
+            {
+                id: 103,
+                title: "Why Rust is Taking Over Systems Programming",
+                excerpt: "Memory safety without garbage collection? How Rust is challenging C++ in critical infrastructure.",
+                content: `<p class="mb-4">For decades, C and C++ have ruled the roost of systems programming. But a challenger has appeared, promising memory safety without the overhead of garbage collection.</p>`,
+                category: "Tech",
+                authorId: 1,
+                date: "Oct 08, 2025",
+                image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800",
+                readTime: "6 min"
+            },
+            {
+                id: 104,
+                title: "Sustainable Living in Urban Environments",
+                excerpt: "Practical tips for reducing your carbon footprint while living in a concrete jungle.",
+                content: `<p class="mb-4">Living in a city doesn't mean you can't live sustainably. From balcony gardening to zero-waste shopping, urbanites are finding creative ways to go green.</p>`,
+                category: "Lifestyle",
+                authorId: 3,
+                date: "Oct 05, 2025",
+                image: "https://images.unsplash.com/photo-1445308394109-4ec2920981b1?auto=format&fit=crop&q=80&w=800",
+                readTime: "4 min"
+            },
+            {
+                id: 105,
+                title: "The Renaissance of Film Photography",
+                excerpt: "In an age of instant digital snaps, why are Gen Z photographers flocking back to 35mm film?",
+                content: `<p class="mb-4">There is a certain magic to the grain of film that digital sensors struggle to replicate. The constraint of 36 exposures forces intention.</p>`,
+                category: "Culture",
+                authorId: 3,
+                date: "Oct 01, 2025",
+                image: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&q=80&w=800",
+                readTime: "7 min"
+            }
+        ];
+
+        // --- State Management ---
+        let currentPage = 'home';
+
+        // --- Core Functions ---
+
+        function init() {
+            navigateTo('home');
+            renderTrending();
+            lucide.createIcons();
+        }
+
+        function navigateTo(page, params = null) {
+            currentPage = page;
+            const contentArea = document.getElementById('content-area');
+            
+            // Fade out effect could be added here, but direct swap is snappier
+            contentArea.innerHTML = ''; // Clear content
+            contentArea.classList.remove('fade-in');
+            void contentArea.offsetWidth; // Trigger reflow
+            contentArea.classList.add('fade-in');
+
+            // Update Active Nav State
+            document.querySelectorAll('.nav-link').forEach(btn => {
+                if(btn.dataset.target === page) {
+                    btn.classList.add('text-indigo-600', 'bg-indigo-50/50', 'rounded-md', 'px-2', 'py-1');
+                    btn.classList.remove('text-slate-600');
+                } else {
+                    btn.classList.remove('text-indigo-600', 'bg-indigo-50/50', 'rounded-md', 'px-2', 'py-1');
+                    btn.classList.add('text-slate-600');
+                }
+            });
+
+            // Route to Page Generator
+            switch(page) {
+                case 'home':
+                    contentArea.innerHTML = renderHome();
+                    break;
+                case 'categories':
+                    contentArea.innerHTML = renderCategories(params);
+                    break;
+                case 'article':
+                    contentArea.innerHTML = renderArticle(params);
+                    break;
+                case 'authors':
+                    contentArea.innerHTML = renderAuthors();
+                    break;
+                case 'archive':
+                    contentArea.innerHTML = renderArchive();
+                    break;
+                case 'contact':
+                    contentArea.innerHTML = renderContact();
+                    break;
+                default:
+                    contentArea.innerHTML = renderHome();
+            }
+            
+            // Re-init icons for new content
+            lucide.createIcons();
+            window.scrollTo(0,0);
+        }
+
+        // --- Render Functions ---
+
+        function renderHome() {
+            // Featured Post (First one)
+            const featured = posts[0];
+            const author = authors.find(a => a.id === featured.authorId);
+            
+            let html = `
+                <!-- Featured Article -->
+                <div class="group relative rounded-2xl overflow-hidden shadow-lg bg-white mb-10 cursor-pointer" onclick="navigateTo('article', ${featured.id})">
+                    <div class="h-64 md:h-96 w-full overflow-hidden">
+                        <img src="${featured.image}" alt="${featured.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                    </div>
+                    <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/80 to-transparent p-6 md:p-8 pt-24 text-white">
+                        <span class="bg-indigo-600 text-xs font-bold px-2 py-1 rounded uppercase tracking-wider mb-2 inline-block">${featured.category}</span>
+                        <h2 class="text-2xl md:text-4xl font-bold mb-2 leading-tight">${featured.title}</h2>
+                        <div class="flex items-center gap-3 text-sm text-slate-200">
+                            <span>${author.name}</span>
+                            <span>&bull;</span>
+                            <span>${featured.date}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Latest Posts Grid -->
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold text-slate-900 font-serif">Latest Articles</h2>
+                    <button onclick="navigateTo('archive')" class="text-indigo-600 font-medium hover:underline text-sm">View All</button>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    ${posts.slice(1).map(post => createPostCard(post)).join('')}
+                </div>
+            `;
+            return html;
+        }
+
+        function createPostCard(post) {
+            const author = authors.find(a => a.id === post.authorId);
+            return `
+                <article class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-md transition flex flex-col h-full">
+                    <div class="h-48 overflow-hidden cursor-pointer relative group" onclick="navigateTo('article', ${post.id})">
+                        <img src="${post.image}" alt="${post.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                         <span class="absolute top-4 left-4 bg-white/90 backdrop-blur text-indigo-700 text-xs font-bold px-2 py-1 rounded shadow-sm">${post.category}</span>
+                    </div>
+                    <div class="p-6 flex flex-col flex-grow">
+                        <div class="flex items-center gap-2 text-xs text-slate-500 mb-3">
+                            <i data-lucide="calendar" class="w-3 h-3"></i> ${post.date}
+                            <span>&bull;</span>
+                            <i data-lucide="clock" class="w-3 h-3"></i> ${post.readTime}
+                        </div>
+                        <h3 class="text-xl font-bold text-slate-900 mb-3 hover:text-indigo-600 cursor-pointer font-serif leading-snug" onclick="navigateTo('article', ${post.id})">${post.title}</h3>
+                        <p class="text-slate-600 text-sm mb-4 line-clamp-3 flex-grow">${post.excerpt}</p>
+                        
+                        <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-100">
+                            <div class="flex items-center gap-2">
+                                <img src="${author.avatar}" alt="${author.name}" class="w-6 h-6 rounded-full object-cover">
+                                <span class="text-xs font-medium text-slate-700">${author.name}</span>
+                            </div>
+                            <button onclick="navigateTo('article', ${post.id})" class="text-indigo-600 text-sm font-bold flex items-center gap-1 hover:gap-2 transition-all">
+                                Read More <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        function renderCategories(filter = 'All') {
+            const categories = ['All', ...new Set(posts.map(p => p.category))];
+            
+            const filteredPosts = filter === 'All' || !filter 
+                ? posts 
+                : posts.filter(p => p.category === filter);
+
+            return `
+                <div class="bg-indigo-900 text-white p-8 rounded-2xl mb-8 relative overflow-hidden">
+                    <div class="relative z-10">
+                        <h2 class="text-3xl font-bold font-serif mb-2">Explore Categories</h2>
+                        <p class="text-indigo-200">Discover stories tailored to your interests.</p>
+                    </div>
+                    <i data-lucide="compass" class="absolute -bottom-8 -right-8 w-48 h-48 text-indigo-800/50"></i>
+                </div>
+
+                <!-- Filter Bar -->
+                <div class="flex flex-wrap gap-2 mb-8">
+                    ${categories.map(cat => `
+                        <button 
+                            onclick="navigateTo('categories', '${cat}')"
+                            class="px-4 py-2 rounded-full text-sm font-medium transition ${filter === cat ? 'bg-indigo-600 text-white shadow-md' : 'bg-white text-slate-600 hover:bg-slate-100 border border-slate-200'}">
+                            ${cat}
+                        </button>
+                    `).join('')}
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    ${filteredPosts.length > 0 
+                        ? filteredPosts.map(post => createPostCard(post)).join('') 
+                        : `<div class="col-span-2 text-center py-12 text-slate-500">No articles found in this category.</div>`
+                    }
+                </div>
+            `;
+        }
+
+        function renderArticle(id) {
+            const post = posts.find(p => p.id === id);
+            if (!post) return `<div>Article not found</div>`;
+            
+            const author = authors.find(a => a.id === post.authorId);
+
+            return `
+                <article class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <img src="${post.image}" alt="${post.title}" class="w-full h-64 md:h-96 object-cover">
+                    
+                    <div class="p-6 md:p-10">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">${post.category}</span>
+                            <span class="text-slate-400 text-sm">&bull;</span>
+                            <span class="text-slate-500 text-sm">${post.date}</span>
+                        </div>
+
+                        <h1 class="text-3xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">${post.title}</h1>
+
+                        <div class="flex items-center gap-4 mb-8 pb-8 border-b border-slate-100">
+                            <img src="${author.avatar}" class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm">
+                            <div>
+                                <p class="font-bold text-slate-900 text-sm">${author.name}</p>
+                                <p class="text-slate-500 text-xs">${author.role}</p>
+                            </div>
+                        </div>
+
+                        <div class="article-body prose prose-lg prose-slate max-w-none text-slate-700 leading-relaxed">
+                           ${post.content}
+                           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                           <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                           <blockquote>"Good design is obvious. Great design is transparent."</blockquote>
+                           <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Comment Section (Frontend Only) -->
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-10 mt-8">
+                    <h3 class="text-2xl font-bold text-slate-900 mb-6 font-serif">Discussion</h3>
+                    
+                    <!-- Existing Mock Comment -->
+                    <div class="flex gap-4 mb-8">
+                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center font-bold text-slate-500 flex-shrink-0">JD</div>
+                        <div>
+                            <div class="bg-slate-50 p-4 rounded-xl rounded-tl-none">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="font-bold text-sm">John Doe</span>
+                                    <span class="text-xs text-slate-400">2 hours ago</span>
+                                </div>
+                                <p class="text-slate-700 text-sm">Great article! I really appreciate the insight on negative space. It's something I struggle with.</p>
+                            </div>
+                            <button class="text-xs text-indigo-600 font-medium mt-2 hover:underline">Reply</button>
+                        </div>
+                    </div>
+
+                    <!-- Comment Form -->
+                    <form onsubmit="event.preventDefault(); alert('Comment submitted for review!'); this.reset();" class="mt-8">
+                        <h4 class="text-md font-bold text-slate-700 mb-4">Leave a comment</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <input type="text" placeholder="Name" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                            <input type="email" placeholder="Email (will not be published)" required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                        </div>
+                        <textarea rows="4" placeholder="Share your thoughts..." required class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition mb-4"></textarea>
+                        <button type="submit" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition shadow-md">Post Comment</button>
+                    </form>
+                </div>
+            `;
+        }
+
+        function renderAuthors() {
+            return `
+                <div class="mb-8">
+                    <h1 class="text-4xl font-bold font-serif text-slate-900 mb-2">Our Writers</h1>
+                    <p class="text-slate-600">Meet the voices behind the stories.</p>
+                </div>
+                <div class="grid grid-cols-1 gap-6">
+                    ${authors.map(author => `
+                        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col md:flex-row items-center md:items-start gap-6 hover:shadow-md transition">
+                            <img src="${author.avatar}" alt="${author.name}" class="w-24 h-24 rounded-full object-cover ring-4 ring-indigo-50">
+                            <div class="text-center md:text-left flex-1">
+                                <h3 class="text-xl font-bold text-slate-900">${author.name}</h3>
+                                <p class="text-indigo-600 font-medium text-sm mb-3">${author.role}</p>
+                                <p class="text-slate-600 mb-4">${author.bio}</p>
+                                <div class="flex justify-center md:justify-start gap-3">
+                                    <button class="p-2 text-slate-400 hover:text-indigo-600 bg-slate-50 hover:bg-indigo-50 rounded-full transition"><i data-lucide="twitter" class="w-4 h-4"></i></button>
+                                    <button class="p-2 text-slate-400 hover:text-indigo-600 bg-slate-50 hover:bg-indigo-50 rounded-full transition"><i data-lucide="mail" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderArchive() {
+            // Simple grouped list
+            return `
+                <div class="mb-8">
+                    <h1 class="text-4xl font-bold font-serif text-slate-900 mb-2">Archive</h1>
+                    <p class="text-slate-600">Browse our complete history of articles.</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="divide-y divide-slate-100">
+                        ${posts.map(post => `
+                            <div class="p-6 flex flex-col md:flex-row md:items-center justify-between hover:bg-slate-50 transition cursor-pointer" onclick="navigateTo('article', ${post.id})">
+                                <div>
+                                    <span class="text-xs font-bold text-indigo-600 uppercase tracking-wide mb-1 block">${post.category}</span>
+                                    <h3 class="text-lg font-bold text-slate-800 mb-1">${post.title}</h3>
+                                    <p class="text-sm text-slate-500 md:hidden">${post.date}</p>
+                                </div>
+                                <div class="hidden md:block text-right min-w-fit pl-4">
+                                    <p class="text-sm font-medium text-slate-900">${post.date}</p>
+                                    <p class="text-xs text-slate-500">${post.readTime} read</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderContact() {
+            return `
+                 <div class="max-w-2xl mx-auto">
+                    <div class="text-center mb-10">
+                        <h1 class="text-4xl font-bold font-serif text-slate-900 mb-4">Get in Touch</h1>
+                        <p class="text-slate-600">Have a story tip, a question, or just want to say hello? Fill out the form below.</p>
+                    </div>
+
+                    <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-8">
+                        <form onsubmit="event.preventDefault(); alert('Message sent successfully!'); this.reset();">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2">First Name</label>
+                                    <input type="text" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-bold text-slate-700 mb-2">Last Name</label>
+                                    <input type="text" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                </div>
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Email Address</label>
+                                <input type="email" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                            </div>
+                            <div class="mb-6">
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Subject</label>
+                                <select class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                                    <option>General Inquiry</option>
+                                    <option>Advertising</option>
+                                    <option>Report a Bug</option>
+                                    <option>Pitch a Story</option>
+                                </select>
+                            </div>
+                            <div class="mb-8">
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Message</label>
+                                <textarea rows="5" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4 rounded-lg transition shadow-md flex items-center justify-center gap-2">
+                                <i data-lucide="send" class="w-4 h-4"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                        <div class="p-4">
+                            <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i data-lucide="map-pin" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-900">Visit Us</h4>
+                            <p class="text-sm text-slate-500 mt-1">123 Media District<br>New York, NY 10001</p>
+                        </div>
+                        <div class="p-4">
+                            <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i data-lucide="mail" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-900">Email Us</h4>
+                            <p class="text-sm text-slate-500 mt-1">hello@chronicle.com<br>press@chronicle.com</p>
+                        </div>
+                         <div class="p-4">
+                            <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i data-lucide="phone" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-bold text-slate-900">Call Us</h4>
+                            <p class="text-sm text-slate-500 mt-1">+1 (555) 123-4567<br>Mon-Fri, 9am-6pm</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderTrending() {
+            const container = document.getElementById('trending-posts');
+            // Sort by mock views or just pick randoms, here we just pick first 3 reversed
+            const trending = [...posts].reverse().slice(0, 3);
+            
+            container.innerHTML = trending.map((post, index) => `
+                <div class="flex gap-4 group cursor-pointer" onclick="navigateTo('article', ${post.id})">
+                    <span class="text-3xl font-bold text-slate-200 font-serif leading-none group-hover:text-indigo-200 transition">0${index + 1}</span>
+                    <div>
+                        <h4 class="font-bold text-slate-800 text-sm leading-tight mb-1 group-hover:text-indigo-600 transition">${post.title}</h4>
+                        <span class="text-xs text-slate-400">${post.readTime} read</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', init);
+
+    </script>
+</body>
+</html>
